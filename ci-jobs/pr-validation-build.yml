@@ -3,8 +3,8 @@ jobs:
   - template: ./templates/xcuitest-e2e-template.yml
     parameters:
       name: iPhoneX_13
-      iosVersion: 12.2
-      xcodeVersion: 10.2
+      iosVersion: 13
+      xcodeVersion: 11
       deviceName: "iPhone X"
       tvosName: AppleTV_13
       tvosDeviceName: "Apple TV"
