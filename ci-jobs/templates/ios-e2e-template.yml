@@ -3,7 +3,7 @@ parameters:
     script: ''
     name: ios-e2e-test
     dependsOn: ''
-    iosVersion: 13
+    iosVersion: 13.0
     xcodeVersion: 11
     deviceName: 'iPhone X'
 
