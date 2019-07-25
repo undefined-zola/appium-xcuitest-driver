@@ -52,7 +52,6 @@ let GENERIC_CAPS = {
   showXcodeLog: SHOW_XCODE_LOG,
   wdaLaunchTimeout: (60 * 1000 * 4),
   wdaConnectionTimeout: (60 * 1000 * 8),
-  useNewWDA: true,
 };
 
 if (process.env.CLOUD) {
