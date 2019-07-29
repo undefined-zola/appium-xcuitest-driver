@@ -21,6 +21,7 @@ const REAL_DEVICE = (function () {
   }
   return !!rd;
 })();
+const UPDATED_WDA_BUNDLE_ID = process.env.UPDATED_WDA_BUNDLE_ID;
 let XCCONFIG_FILE = process.env.XCCONFIG_FILE;
 if (REAL_DEVICE && !XCCONFIG_FILE) {
   // no xcconfig file specified, so try to find in the root directory of the package
@@ -39,6 +40,7 @@ const REAL_DEVICE_CAPS = REAL_DEVICE ? {
   testobject_app_id: apps.testAppId,
   testobject_api_key: process.env.SAUCE_RDC_ACCESS_KEY,
   testobject_remote_appium_url: process.env.APPIUM_STAGING_URL, // TODO: Once RDC starts supporting this again, re-insert this
+  updatedWDABundleId: UPDATED_WDA_BUNDLE_ID,
 } : {};
 
 let GENERIC_CAPS = {
@@ -52,7 +54,6 @@ let GENERIC_CAPS = {
   showXcodeLog: SHOW_XCODE_LOG,
   wdaLaunchTimeout: (60 * 1000 * 4),
   wdaConnectionTimeout: (60 * 1000 * 8),
-  useNewWDA: true,
 };
 
 if (process.env.CLOUD) {
