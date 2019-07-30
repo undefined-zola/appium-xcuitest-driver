@@ -86,7 +86,11 @@ describe('XCUITestDriver - basics -', function () {
       actual.viewportRect.width.should.be.a('number');
       delete actual.viewportRect;
 
-      delete expected.udid; // for real device tests
+      // for real device tests
+      delete expected.udid;
+      delete expected.testobject_app_id;
+      delete expected.testobject_api_key;
+      delete expected.testobject_remote_appium_url;
 
       if (expected.showXcodeLog === undefined) {
         delete expected.showXcodeLog;
