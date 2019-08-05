@@ -59,8 +59,8 @@ describe('XCUITestDriver - find', function () {
 
     it('should not allow found elements to be mixed up', async function () {
       let table = await driver.elementByClassName('XCUIElementTypeTable');
-      let el1 = await table.elementByClassName('XCUIElementTypeStaticText');
-      let el1Name = await el1.getAttribute('name');
+      const el1 = await table.elementByClassName('XCUIElementTypeStaticText');
+      const el1Name = await el1.getAttribute('name');
       await el1.click();
 
       // we need a hard pause, because if we haven't shifted views yet
@@ -69,8 +69,8 @@ describe('XCUITestDriver - find', function () {
 
       await driver.setImplicitWaitTimeout(5000);
       table = await driver.elementByClassName('XCUIElementTypeTable');
-      let el2 = await driver.elementByClassName('XCUIElementTypeStaticText');
-      let el2Name = await el2.getAttribute('name');
+      const el2 = await driver.elementByClassName('XCUIElementTypeStaticText');
+      const el2Name = await el2.getAttribute('name');
       el1.should.not.equal(el2);
       el1Name.should.not.equal(el2Name);
 

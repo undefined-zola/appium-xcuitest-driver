@@ -330,15 +330,10 @@ describe('XCUITestDriver - element(s)', function () {
       });
       describe('hide keyboard', function () {
         it('should be able to hide the keyboard', async function () {
-          // pause for a second, or else some systems will falsely fail on this test
-          await B.delay(1000);
-          let el = await driver.elementByClassName('XCUIElementTypeTextField');
+          const el = await driver.waitForElementByClassName('XCUIElementTypeTextField', 1000);
           await el.click();
 
-          // pause to make sure the keyboard comes up
-          await B.delay(500);
-
-          let db = await driver.elementByAccessibilityId('Done');
+          const db = await driver.waitForElementByAccessibilityId('Done', 500);
           (await db.isDisplayed()).should.be.true;
 
           await driver.hideKeyboard();
@@ -348,7 +343,7 @@ describe('XCUITestDriver - element(s)', function () {
           // fast ones will get the element but it will be invisible
           await B.delay(1000);
 
-          db = await driver.elementByAccessibilityId('Done').should.eventually.be.rejected;
+          await driver.elementByAccessibilityId('Done').should.eventually.be.rejected;
         });
       });
     });

@@ -164,6 +164,7 @@ describe('XCUITestDriver - basics -', function () {
       try {
         await driver.setOrientation('LANDSCAPE');
       } catch (ign) {}
+
       // take a little pause while it orients, otherwise you get the screenshot
       // on an angle
       await B.delay(500);

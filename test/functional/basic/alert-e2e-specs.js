@@ -1,6 +1,5 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import B from 'bluebird';
 import { retryInterval } from 'asyncbox';
 import { UICATALOG_CAPS } from '../desired';
 import { initSession, deleteSession, MOCHA_TIMEOUT } from '../helpers/session';
@@ -8,6 +7,15 @@ import { initSession, deleteSession, MOCHA_TIMEOUT } from '../helpers/session';
 
 chai.should();
 chai.use(chaiAsPromised);
+
+
+async function waitForAlert (driver, text = 'A Short Title Is Best') {
+  const duration = process.env.CLOUD ? 10000 : 2000;
+  const retries = duration / 100;
+  await retryInterval(retries, duration, async function () {
+    (await driver.alertText()).should.include(text);
+  });
+}
 
 describe('XCUITestDriver - alerts -', function () {
   this.timeout(MOCHA_TIMEOUT);
@@ -39,9 +47,9 @@ describe('XCUITestDriver - alerts -', function () {
   it('should detect Simple', async function () {
     let el = await driver.elementByAccessibilityId('Simple');
     await el.click();
-    await B.delay(process.env.CLOUD ? 10000 : 2000);
 
-    (await driver.alertText()).should.include('A Short Title Is Best');
+    await waitForAlert(driver);
+
     await driver.dismissAlert();
   });
 
@@ -49,10 +57,8 @@ describe('XCUITestDriver - alerts -', function () {
     let el = await driver.elementByAccessibilityId('Okay / Cancel');
     await el.click();
 
-    // small pause for alert to open
-    await B.delay(1000);
+    await waitForAlert(driver);
 
-    (await driver.alertText()).should.include('A Short Title Is Best');
     await driver.acceptAlert();
   });
 
@@ -60,10 +66,8 @@ describe('XCUITestDriver - alerts -', function () {
     let el = await driver.elementByAccessibilityId('Other');
     await el.click();
 
-    // small pause for alert to open
-    await B.delay(1000);
+    await waitForAlert(driver);
 
-    (await driver.alertText()).should.include('A Short Title Is Best');
     await driver.dismissAlert();
   });
 
@@ -89,8 +93,7 @@ describe('XCUITestDriver - alerts -', function () {
         let el = await driver.elementByAccessibilityId(test.alert);
         await el.click();
 
-        // small pause for alert to open
-        await B.delay(1000);
+        await waitForAlert(driver);
 
         await driver.alertKeys(test.text);
 

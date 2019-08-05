@@ -9,7 +9,7 @@ import { GUINEA_PIG_PAGE } from './helpers';
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('safari - alerts', function () {
+describe.only('safari - alerts', function () { // eslint-disable-line
   this.timeout(MOCHA_TIMEOUT);
 
   let driver;
@@ -18,17 +18,21 @@ describe('safari - alerts', function () {
     if (PLATFORM_VERSION === '9.3') {
       return this.skip();
     }
-    // TODO: why does this fail on Travis? popup happens but button is "send"
-    if (process.env.CI) {
-      return this.skip();
-    }
 
-    let caps = _.defaults({
+    const caps = _.defaults({
       safariInitialUrl: GUINEA_PIG_PAGE,
       safariAllowPopups: true,
       nativeWebTap: true,
     }, SAFARI_CAPS);
     driver = await initSession(caps);
+  });
+  afterEach(async function () {
+    if (this.currentTest.state !== 'passed') {
+      const ctx = await driver.currentContext();
+      await driver.context('NATIVE_APP');
+      console.log(await driver.source()); // eslint-disable-line
+      await driver.context(ctx);
+    }
   });
   after(async function () {
     await deleteSession();
@@ -75,5 +79,6 @@ describe('safari - alerts', function () {
     await el.click();
     await driver.alertKeys('yes I do!')
       .should.be.rejectedWith(/Tried to set text of an alert that was not a prompt/);
+    await driver.acceptAlert();
   });
 });
