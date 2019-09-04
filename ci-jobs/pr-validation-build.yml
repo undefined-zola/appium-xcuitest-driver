@@ -8,3 +8,34 @@ jobs:
       deviceName: "iPhone X"
       tvosName: AppleTV_13
       tvosDeviceName: "Apple TV"
+  - job: runsauce
+    pool:
+      vmImage: 'macOS-10.14'
+    steps:
+    - checkout: self
+    - script: ls /Applications/
+      displayName: List Installed Applications
+    - script: sudo xcode-select -s /Applications/Xcode_11.app/Contents/Developer
+      displayName: Xcode Select 11
+    - script: xcodebuild -version
+      displayName: Log Xcode Version
+    - script: xcrun simctl list
+      displayName: List Installed Simulators
+    - task: NodeTool@0
+      inputs:
+        versionSpec: 10.x
+    - script: |
+        sed -i '' 's/git@github.com:/https:\/\/github.com\//' /Users/travis/build/appium/appium-xcuitest-driver/.gitmodules;
+        git submodule update --init --recursive;
+      displayName: Checkout WDA submodule
+    - script: npm install
+      displayName: Install NPM dependencies
+    - script: npm install -g runsauce2
+      displayName: Install Runsauce
+    - script: |
+        echo \{\"local\": { \"server\": \"localhost\", \"port\": 4723 }}\ > ~/.runsauce.json
+      displayName: Create runsauce file
+    - script: node . --port 4724 &
+      displayName: Run Appium XCUI Test Driver server
+    - script: runsauce -c local -t ios_hybrid -v 13.0 -d "iPhone 8" -a 1.13.0
+      displayName: runsauce ios hybrid
