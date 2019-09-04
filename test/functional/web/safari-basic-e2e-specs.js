@@ -222,7 +222,7 @@ describe('Safari - basics -', function () {
         await el.click();
 
         // let the click occur
-        await B.delay(500);
+        await B.delay(2000);
 
         (await el.isSelected()).should.be.ok;
       });
