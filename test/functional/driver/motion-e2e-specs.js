@@ -18,8 +18,10 @@ describe('ReduceMotion', function () {
 
   let baseCaps;
   let caps;
+  let isIosBelowVersion13 = SETTINGS_CAPS.platformVersion < 13;
 
   let driver;
+
   before(async function () {
     const udid = await createDevice(SIM_DEVICE_NAME,
             SETTINGS_CAPS.deviceName, SETTINGS_CAPS.platformVersion);
@@ -42,11 +44,14 @@ describe('ReduceMotion', function () {
   });
 
   async function getReduceMotion (driver) {
-    let el = await driver.element(PREDICATE_SEARCH, "type == 'XCUIElementTypeCell' AND name == 'General'");
-    await el.click();
+    let el;
+    if (isIosBelowVersion13) {
+      el = await driver.element(PREDICATE_SEARCH, "type == 'XCUIElementTypeCell' AND name == 'General'");
+      await el.click();
+    }
     el = await driver.element(PREDICATE_SEARCH, "type == 'XCUIElementTypeCell' AND name == 'Accessibility'");
     await el.click();
-    el = await driver.element(PREDICATE_SEARCH, "type == 'XCUIElementTypeCell' AND name == 'Reduce Motion'");
+    el = await driver.element(PREDICATE_SEARCH, `type == 'XCUIElementTypeCell' AND name == '${isIosBelowVersion13 ? 'Reduce Motion' : 'Motion'}'`);
     await el.click();
     el = await driver.element(PREDICATE_SEARCH, "type == 'XCUIElementTypeSwitch' AND name == 'Reduce Motion'");
     return await el.getAttribute('value');
