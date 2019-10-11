@@ -33,7 +33,7 @@ describe('Safari - basics -', function () {
       const expectedTitle = process.env.REAL_DEVICE
         ? 'Appium: Mobile App Automation Made Awesome.'
         : 'Appium/welcome';
-      driver = await initSession(SAFARI_CAPS);
+      driver = await initSession(DEFAULT_CAPS);
       const title = await spinTitle(driver);
       title.should.equal(expectedTitle);
     });

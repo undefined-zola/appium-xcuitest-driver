@@ -137,7 +137,9 @@ describe('safari - execute -', function () {
         }).listen({host, port});
       });
       after(function () {
-        server.close();
+        if (server) {
+          server.close();
+        }
       });
 
       it('should execute async javascript from a different site', async function () {
