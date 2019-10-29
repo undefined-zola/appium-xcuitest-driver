@@ -12,7 +12,7 @@ import { retryInterval } from 'asyncbox';
 import { translateDeviceName } from '../../../lib/utils';
 
 let WebDriverAgent;
-if (!process.env.CLOUD) {
+if (!process.env.REMOTE) {
   WebDriverAgent = require('../../../lib/wda/webDriverAgent').WebDriverAgent;
 }
 
@@ -41,7 +41,7 @@ describe('WebDriverAgent', function () {
   let xcodeVersion;
   before(async function () {
     // Don't do these tests on Sauce Labs
-    if (process.env.CLOUD) {
+    if (process.env.REMOTE) {
       this.skip();
     }
 
