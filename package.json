@@ -43,7 +43,7 @@
     "!.DS_Store"
   ],
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
+    "@babel/runtime": "^7.7.4",
     "appium-base-driver": "^4.0.0",
     "appium-idb": "^0",
     "appium-ios-device": "^1.2.1",
