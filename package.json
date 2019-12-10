@@ -92,10 +92,6 @@
     "lint": "gulp lint",
     "lint:fix": "gulp eslint --fix"
   },
-  "pre-commit": [
-    "precommit-msg",
-    "precommit-test"
-  ],
   "devDependencies": {
     "ajv": "^6.5.3",
     "appium-event-parser": "^1.0.0",
